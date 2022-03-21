@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+    
+<!-- 뷰와 관련된 애를 읽어냄 -->
+<!-- 뷰 - jsp 보여주는곳을 관리   TestController 에 찾아오는 방법은 dispatcher-servlet.xml 에적는다
+전에 	/board/creadted.jsp 로 가라   뒤 / 가 prefix , 뒤부분 .jsp 가 suffix 이다.-->
+<!--  prefix 접두사 앞에오는 단어 , suffix 뒤에오는 접미사  -->
+
+<bean id="viewResolver"
+class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/"/>   
+	<property name="suffix" value=".jsp"/>   <!-- .접미사 .jsp 니까 write가 오면 /write.jsp (준비)-->
+</bean>
+
+
+
+<!-- 핸들러매핑 : 다루는 방법 ,  Name으로 찾아간다.  -->
+<!--  /test/msg/action 주소가 오면 com.test.TestController 로 가라  -->
+<!-- http://localhost:8080/spring/test/msg.action   test/msg.action은 내맘대로 준다 (사용자 정의)   -->
+
+<bean id="beanNameUrlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+<bean name="/test/msg.action" class="com.test.TestController"/> 
+
+
+
+<bean id="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	<property name="order" value="1"/> <!-- Spring은 어노테이션으로 쓸수있는데  수동적인 주소 어떤걸 우선할것인가 , value = 1  얘를 먼저 실행해라 -->
+	<property name="alwaysUseFullPath" value="true"/> <!--  스트럿츠에서 struts 에서 study/create.do를 쓰고
+														스트럿츠2에서 study/bbs/cerared.action 으로 쓰고
+														                guest/list.action 
+														            value = true를 쓰면 위처럼 중간에 bbs guest 처럼 주소를 쓸수있다. -->	
+	<property name="mappings">
+		<props>
+			<prop key = "/test/write.action">listFormController</prop> <!--  write.action이 오면 밑에 name = listformcontroller 로 가라 -->
+			<prop key = "/test/write_ok.action">listController</prop> <!--  write_ok.action이 오면 밑에 name =  listController 로 가라 -->
+		</props>
+	</property>
+</bean>
+<!-- 객체생성 2개 -->
+<bean name="listFormController" class="com.test.ListFormController"/>
+<bean name="listController" class="com.test.ListController"/>
+</beans>  

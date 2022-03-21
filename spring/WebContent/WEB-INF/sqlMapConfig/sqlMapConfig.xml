@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<!-- cacheModelsEnabled : 캐쉬 사용하지말라   -->
+<!-- useStatementNamespaces -> sqlMap.xml에서 namespace를 사용할수있다. -->
+<!--  dataSource type : simple 단일테이터베이스 -->
+
+<!--  property : 등록 
+	sqlMap resource : boardTest_sqlMap.xml를 불러온다.  -->
+	<!-- DAO 등록  -->
+<sqlMapConfig>
+	<settings
+	cacheModelsEnabled="false"
+	useStatementNamespaces="true"/> 
+	<sqlMap resource="com/util/sqlMap/temp_sqlMap.xml"/>
+
+</sqlMapConfig>
